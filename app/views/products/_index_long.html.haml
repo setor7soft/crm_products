@@ -14,29 +14,12 @@
       %li= link_to_delete(product)
 
   .indentslim
-    = link_to_if can?(:read, product), product.name(), product
+    = link_to_if can?(:read, product), product.code(), product
     %tt
-      //= brief_account_info(product)
-      %b= product.name
+      = brief_product_info(product)
       %b= product.description
 
-      //- if (lead = product.lead) and lead.referred_by?
-      //  &ndash;
-      //  == #{t :referred_by_small} #{lead.referred_by}
-
     %dt{ :style => "padding: 2px 0px 0px 0px" }
-    //  - if can?(:read, contact)
-    //    - if contact.email.present?
-    //      = link_to_email(contact.email)
-    //      |
-    //    - if contact.phone.present?
-    //      == #{t :phone_small}:
-    //      %b= contact.phone
-    //    |
-    //    - if contact.mobile.present?
-    //      == #{t :mobile_small}:
-    //      %b= contact.mobile
-    //      |
     = t(:added_ago, value: timeago(product.created_at)).html_safe
 
     //- if product.tag_list.present?

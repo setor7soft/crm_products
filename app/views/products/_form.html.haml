@@ -1,11 +1,58 @@
 - edit ||= false
 .section
-  %table
+  = render "/products/avatar", :f => f
+  %table{ :border => 0, :width=> 1000, :cellpadding => 0, :cellspacing => 0 }
     %tr
-      %td(valign="top")
+      %td
+        .label.top.req #{t :code}:
+        = f.text_field :code, :style => "width:110; text-align:right;"
+    %tr
+      %td
         .label.top.req #{t :name}:
-        = f.text_field :name, :style => "width:240px"
+        = f.text_field :name, :style => "width:110; text-align:right;"
     %tr
-      %td(valign="top")
+      %td
+        .label.top.req #{t :manufacturer}:
+        = f.text_field :manufacturer, :style => "width:110; text-align:right;"
+    %tr
+      %td
         .label #{t :description}:
-        = f.text_area :description, :style =>"width:240px", :rows => 4
+        = f.text_area :description, :style =>"width:240px; text-align:right;", :rows => 4
+  %table{ :border => 0, :cellpadding => 0, :cellspacing => 0 }
+    %tr
+      %td
+        .label #{t :price} #{t :currency}:
+        = f.text_field :price, :style => "width:110px; text-align:right;"
+      %td= spacer
+      %td
+        .label #{t :price_3x} #{t :currency}:
+        = f.text_field :price_3x, :style => "width:110px; text-align:right;"
+      %td= spacer
+      %td
+        .label #{t :price_30_days} #{t :currency}:
+        = f.text_field :price_30_days, :style => "width:110px; text-align:right;"
+      %td= spacer
+      %td
+        .label #{t :price_cash} #{t :currency}:
+        = f.text_field :price_cash, :style => "width:110px; text-align:right;"
+      %td= spacer
+  %table{ :border => 0, :cellpadding => 0, :cellspacing => 0 }
+    %tr
+      %td
+        .label #{t :rev_icms18} #{t :currency}:
+        = f.text_field :rev_icms18, :style => "width:110px; text-align:right;"
+      %td= spacer
+      %td
+        .label #{t :rev_icms12} #{t :currency}:
+        = f.text_field :rev_icms12, :style => "width:110px; text-align:right;"
+      %td= spacer
+  %table{ :border => 0, :cellpadding => 0, :cellspacing => 0 }
+    %tr
+      %td
+        .label #{t :stock_in}:
+        = f.text_field :stock_in, :style => "width:110px; text-align:right;"
+      %td= spacer
+      %td
+        .label #{t :stock_out}:
+        = f.text_field :stock_out, :style => "width:110px; text-align:right;"
+      %td= spacer

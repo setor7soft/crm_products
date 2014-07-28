@@ -130,6 +130,35 @@ class ProductsController < EntitiesController
     end
   end
 
+  # GET /users/1/avatar
+  # GET /users/1/avatar.js
+  #----------------------------------------------------------------------------
+  def avatar
+    respond_with(@user)
+  end
+
+  # PUT /users/1/upload_avatar
+  # PUT /users/1/upload_avatar.js
+  #----------------------------------------------------------------------------
+  def upload_avatar
+
+    if params[:avatar]
+      avatar = Avatar.create(params[:avatar].merge(:entity => @product))
+      if avatar.valid?
+        @product.avatar = avatar
+      else
+        @product.avatar.errors.clear
+        @product.avatar.errors.add(:image, t(:msg_bad_image_file))
+      end
+    end
+    responds_to_parent do
+      # Without return RSpec2 screams bloody murder about rendering twice:
+      # within the block and after yield in responds_to_parent.
+      render and (return if Rails.env.test?)
+    end
+
+  end
+
 
   private
   #----------------------------------------------------------------------------

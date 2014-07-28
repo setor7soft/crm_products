@@ -5,7 +5,7 @@
 .title_tools#buttons
   = view_buttons
 .title#edit_product_title
-  = h(@product.name)
+  = h(@product.code) + ' - ' + h(@product.name)
   = image_tag("loading.gif", :size => :thumb, :id => "loading", :style => "display: none;")
 
 %div#edit_product{ hidden }

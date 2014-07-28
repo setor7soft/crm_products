@@ -1,0 +1,27 @@
+.panel#summary
+  //%span{:style => "float:right"}= avatar_for(@product, :size => "50x50")
+  %h4= h(@product.name)
+  = product_with_code_and_manufacturer(@product)
+
+  %div
+    - unless @product.description.blank?
+      .caption #{t :description}
+      == #{h(@product.description)}<br />
+
+  .caption #{t :price}
+  %li
+    %dt= @product.price
+    %tt #{t :price}:
+  %li
+    %dt= @product.price_3x
+    %tt #{t :price_3x}:
+  %li
+    %dt= @product.price_30_days
+    %tt #{t :price_30_days}:
+  %li
+    %dt= @product.price_cash
+    %tt #{t :price_cash}:
+
+  //= render "fields/sidebar_show", :asset => @product
+
+  = hook(:show_product_sidebar_bottom, self, :product => @product)
