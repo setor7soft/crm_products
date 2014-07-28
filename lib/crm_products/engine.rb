@@ -2,7 +2,7 @@ module CrmProducts
   class Engine < ::Rails::Engine
 
     config.to_prepare do
-      require 'crm_products/crm_products_model.rb'
+      require 'crm_products/crm_products_models.rb'
       require 'crm_products/crm_products_view_helpers'
       require 'crm_products/crm_products_view_hooks'
 

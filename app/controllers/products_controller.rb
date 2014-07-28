@@ -1,13 +1,13 @@
-class Admin::ProductsController < Admin::ApplicationController
+class ProductsController < EntitiesController
   before_filter :set_current_tab
   before_filter :auto_complete, :only => :auto_complete
 
-  # GET /admin/products
-  # GET /admin/products.xml                                                   HTML
+  # GET /products
+  # GET /products.xml                                                   HTML
   #----------------------------------------------------------------------------
   def index
-    @products = get_products
-    
+    @products = get_products(:page => params[:page], :per_page => params[:per_page])
+
     respond_to do |format|
       format.html # index.html.haml
       format.js   # index.js.rjs
@@ -15,19 +15,28 @@ class Admin::ProductsController < Admin::ApplicationController
     end
   end
 
-  # GET /admin/products/new
-  # GET /admin/products/new.xml                                               AJAX
+  # GET /products/new
+  # GET /products/new.xml                                               AJAX
   #----------------------------------------------------------------------------
   def new
     @product = Product.new()
-    
+
     respond_to do |format|
       format.js   # new.js.rjs
       format.xml  { render :xml => @product }
     end
   end
 
-  # GET /admin/products/1/edit                                                AJAX
+  # GET /contacts/1
+  # AJAX /contacts/1
+  #----------------------------------------------------------------------------
+  def show
+    @comment = Comment.new
+    @timeline = timeline(@product)
+    respond_with(@product)
+  end
+
+  # GET /products/1/edit                                                AJAX
   #----------------------------------------------------------------------------
   def edit
     @product = Product.find(params[:id])
@@ -41,26 +50,22 @@ class Admin::ProductsController < Admin::ApplicationController
     respond_to_not_found(:js) unless @product
   end
 
-  # POST /admin/products
-  # POST /admin/products.xml                                                  AJAX
+  # POST /products
+  # POST /products.xml                                                  AJAX
   #----------------------------------------------------------------------------
   def create
     @product = Product.new(params[:product])
-    
-    respond_to do |format|
-      if @product.save
-        @products = Product.find(:all)
-        format.js   # create.js.rjs
-        format.xml  { render :xml => @product, :status => :created, :location => @product }
-      else
-        format.js   # create.js.rjs
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+
+    respond_with(@product) do |format|
+      if @product.save(params)
+        @products = get_products if called_from_index_page?
       end
     end
+
   end
 
-  # PUT /admin/products/1
-  # PUT /admin/products/1.xml                                                 AJAX
+  # PUT /products/1
+  # PUT /products/1.xml                                                 AJAX
   #----------------------------------------------------------------------------
   def update
     @product = Product.find(params[:id])
@@ -79,7 +84,7 @@ class Admin::ProductsController < Admin::ApplicationController
     respond_to_not_found(:js, :xml)
   end
 
-  # GET /admin/products/1/confirm                                             AJAX
+  # GET /products/1/confirm                                             AJAX
   #----------------------------------------------------------------------------
   def confirm
     @product = Product.find(params[:id])
@@ -88,8 +93,8 @@ class Admin::ProductsController < Admin::ApplicationController
     respond_to_not_found(:js, :xml)
   end
 
-  # DELETE /admin/products/1
-  # DELETE /admin/products/1.xml                                              AJAX
+  # DELETE /products/1
+  # DELETE /products/1.xml                                              AJAX
   #----------------------------------------------------------------------------
   def destroy
     @product = Product.find(params[:id])
@@ -105,11 +110,29 @@ class Admin::ProductsController < Admin::ApplicationController
       end
     end
   end
-  
+
+  def redraw
+    current_user.pref[:products_per_page] = params[:per_page] if params[:per_page]
+
+    # Sorting and naming only: set the same option for Leads if the hasn't been set yet.
+    if params[:sort_by]
+      current_user.pref[:products_sort_by] = Product::sort_by_map[params[:sort_by]]
+    end
+    if params[:naming]
+      current_user.pref[:products_naming] = params[:naming]
+    end
+
+    @products = get_products(:page => 1, :per_page => params[:per_page]) # Start on the first page.
+    set_options # Refresh options
+
+    respond_with(@products) do |format|
+      format.js { render :index }
+    end
+  end
+
+
   private
   #----------------------------------------------------------------------------
-  def get_products
-    Product.find(:all)
-  end
-  
+  alias :get_products :get_list_of_records
+
 end

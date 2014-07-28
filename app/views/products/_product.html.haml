@@ -1,0 +1,5 @@
+- if (params['controller'] == 'products') and (template = template_for_current_view).present?
+  = render(template, :product => product)
+- else
+  -# default view
+  = render 'index_long', :product => product

@@ -1,5 +1,12 @@
-ActionController::Routing::Routes.draw do |map| 
-  map.namespace :admin do |admin|
-    admin.resources :products, :collection => { :search => :get, :auto_complete => :post }, :member => { :confirm => :get }
-  end    
+Rails.application.routes.draw do
+  resources :products do
+    collection do
+      get :search
+      post :auto_complete
+      get  :redraw
+    end
+    member do
+      get :confirm
+    end
+  end
 end

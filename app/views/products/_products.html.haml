@@ -1,0 +1,6 @@
+= section(object, :products)
+.list#products
+  - products = object.products.order('updated_at desc').paginate(:page => 1, :per_page => 20)
+  = render :partial => "products/product", :collection => products
+
+= paginate( collection: products, id: 'products_pagination', params: { action: 'products' } )

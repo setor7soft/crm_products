@@ -1,0 +1,20 @@
+- if (template = template_for_current_view)
+  = render(template, :product => @product)
+- else
+
+  -# default view
+
+  = styles_for :task, :opportunity
+
+  = render 'products/title_bar', :product => @product
+
+  = render "comments/new", :commentable => @product
+  = render :partial => "shared/timeline", :collection => @timeline
+
+  = hook(:show_product_bottom, self) do
+
+    //= render :partial => "opportunities/opportunities", :locals => {:object => @product}
+
+    = render :partial => "versions/versions", :locals => {:object => @product}
+
+    = load_select_popups_for(@product, :opportunities)
