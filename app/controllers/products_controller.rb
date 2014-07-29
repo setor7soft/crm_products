@@ -20,7 +20,6 @@ class ProductsController < EntitiesController
   #----------------------------------------------------------------------------
   def new
     @product = Product.new()
-
     respond_to do |format|
       format.js   # new.js.rjs
       format.xml  { render :xml => @product }
@@ -54,14 +53,26 @@ class ProductsController < EntitiesController
   # POST /products.xml                                                  AJAX
   #----------------------------------------------------------------------------
   def create
-    @product = Product.new(params[:product])
-
+    @product = Product.new(product_params)
     respond_with(@product) do |format|
-      if @product.save(params)
+      loginputs @product
+      if @product.save(product_params)
+        loginputs called_from_index_page?
         @products = get_products if called_from_index_page?
+        loginputs @products
       end
     end
 
+  end
+
+  def product_params
+    params.require(:product)#.permit(:avatar)
+  end
+
+  def loginputs(obj)
+    puts '################____INICIO____################'
+    puts obj.inspect
+    puts '################____FIM____################'
   end
 
   # PUT /products/1
@@ -69,9 +80,8 @@ class ProductsController < EntitiesController
   #----------------------------------------------------------------------------
   def update
     @product = Product.find(params[:id])
-
     respond_to do |format|
-      if @product.update_attributes(params[:product])
+      if @product.update_attributes(product_params)
         format.js   # update.js.rjs
         format.xml  { head :ok }
       else

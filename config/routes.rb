@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     end
     member do
       get :avatar
-      put :upload_avatar
+      put :upload
       get :confirm
     end
   end

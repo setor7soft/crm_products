@@ -1,4 +1,4 @@
-= simple_form_for(@product, :html => one_submit_only, :remote => true) do |f|
+= form_for(@product, remote: true, :html => { :multipart => true} ) do |f|
   = link_to_close new_product_path
   = f.error_messages :object_name => t('product')
   = render "products/form", :f => f
