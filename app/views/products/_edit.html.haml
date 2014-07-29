@@ -1,9 +1,10 @@
 .remote
-  - simple_form_for(@product, :remote => true, :html => one_submit_only(:product)) do |f|
-    = link_to_close edit_product_path(@product)
-    = f.error_messages
-    = render :partial => "products/form", :locals => { :f => f, :edit => true }
+  = simple_form_for(@product, :html => one_submit_only, :remote => true) do |f|
+    = link_to_close new_product_path
+    = f.error_messages :object_name => t('product')
+    = render "products/form", :f => f, :edit => true
+
     .buttonbar
-      = f.submit t(:save_product)
+      = f.submit t(:update_product), :onclick => "crm.update_product()"
       #{t :or}
-      = link_to_cancel edit_product_path(@product)
+      = link_to_cancel new_product_path

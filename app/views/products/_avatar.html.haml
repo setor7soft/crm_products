@@ -1,9 +1,0 @@
-.remote
-  = form_for(@product, :url => product_path(@product, :format => "js"), :html => { :multipart => true, :target => "uploading", :onsubmit => "$('#product_avatar_submit').disabled = true" }) do |f|
-    = error_messages_for :avatar, :object => @product.avatar, :object_name => t('avatar')
-    = f.file_field :avatar
-
-    .buttonbar
-      %small.cool{:style => "float:right"}
-      = f.submit t(:upload_picture), :id => "user_avatar_submit"
-%br

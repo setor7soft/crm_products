@@ -20,6 +20,7 @@ module CrmProducts
         migration_template "create_product_assets.rb", "db/migrate/create_product_assets.rb"
         migration_template "create_products.rb", "db/migrate/create_products.rb"
         migration_template "add_subscribed_users_to_products.rb", "db/migrate/add_subscribed_users_to_products.rb"
+        migration_template "add_attachment_avatar_to_products.rb", "db/migrate/add_attachment_avatar_to_products.rb"
       end
     end
   end

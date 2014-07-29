@@ -1,5 +1,5 @@
 %li.highlight[product]
-  //= avatar_for(product, :size => "30x30")
+  = image_tag product.avatar.url(:thumb), {:class => 'gravatar'};
 
   %ul.tools
     = hook(:product_tools_before, self, :product => product)

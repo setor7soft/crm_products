@@ -2,14 +2,15 @@ class Product < ActiveRecord::Base
   has_many    :product_assets, :dependent => :destroy
   has_many    :emails, :as => :mediator
 
-  has_one     :avatar, :as => :entity, :dependent => :destroy  # Personal avatar.
-  has_many    :avatars                                         # As owner who uploaded it, ex. Contact avatar.
+  has_attached_file :avatar, :styles => { :medium => "50x50>", :thumb => "30x30>" }, :default_url => "/images/:style/missing.png"
 
   acts_as_paranoid
 
   has_ransackable_associations %w(tags comments emails)
 
   serialize :subscribed_users, Set
+
+  scope :my, -> { accessible_by(User.current_ability) }
 
   acts_as_commentable
   uses_comment_extensions

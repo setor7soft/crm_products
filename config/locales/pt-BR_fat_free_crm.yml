@@ -8,7 +8,7 @@ pt-BR:
   create_product: Criar Produto
   description: Descrição
   save_product: Salvar
-  select_products: Selecione o produto (multiselect)
+  select_products: Selecione o(os) produto(s) 
   products: Produtos
   product: Produto
   code: Codigo

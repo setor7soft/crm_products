@@ -1,5 +1,5 @@
 .panel#summary
-  //%span{:style => "float:right"}= avatar_for(@product, :size => "50x50")
+  %span{:style => "float:right"}= image_tag @product.avatar.url(:thumb), {:class => 'gravatar'};
   %h4= h(@product.name)
   = product_with_code_and_manufacturer(@product)
 

@@ -1,7 +1,11 @@
 - edit ||= false
 .section
-  = render "/products/avatar", :f => f
+
   %table{ :border => 0, :width=> 1000, :cellpadding => 0, :cellspacing => 0 }
+    %tr
+      %td
+        .label #{t :imagem}:
+        = f.file_field :avatar, :style => "width:110; text-align:right;"
     %tr
       %td
         .label.top.req #{t :code}:
